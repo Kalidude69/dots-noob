@@ -9,12 +9,12 @@ import clickCloseRegion from '../.commonwidgets/clickcloseregion.js';
 
 const cheatsheets = [
     {
-        name: getString('Keybinds'),
+        name: 'Keybinds',
         materialIcon: 'keyboard',
         contentWidget: Keybinds,
     },
     {
-        name: getString('Periodic table'),
+        name: 'Periodic table',
         materialIcon: 'experiment',
         contentWidget: PeriodicTable,
     },
@@ -35,7 +35,7 @@ const CheatsheetHeader = () => Widget.CenterBox({
                         hpack: 'center',
                         css: 'margin-right: 0.682rem;',
                         className: 'txt-title',
-                        label: getString('Cheat sheet'),
+                        label: 'Cheat sheet',
                     }),
                     Widget.Label({
                         vpack: 'center',

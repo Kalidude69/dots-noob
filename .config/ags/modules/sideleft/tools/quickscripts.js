@@ -10,52 +10,57 @@ import { setupCursorHover } from '../../.widgetutils/cursorhover.js';
 
 import { distroID, isArchDistro, isDebianDistro, hasFlatpak } from '../../.miscutils/system.js';
 
+const axosOrArchIcon = () => {
+    if(distroID == "axos") return 'axos-symbolic'
+    else return 'arch-symbolic'
+}
+
 const scripts = [
     {
-        icon: 'desktop-symbolic',
-        name: getString('Change screen resolution'),
-        command: `bash ${App.configDir}/modules/sideleft/tools/changeres.sh`,
-        enabled: true,
-    },
+    	icon: 'desktop-symbolic',
+    	name: 'Change screen resolution',
+    	command: `bash ${App.configDir}/modules/sideleft/tools/changeres.sh`,
+    	enabled: true,
+	},
     {
         icon: 'nixos-symbolic',
-        name: getString('Trim system generations to 5'),
+        name: 'Trim system generations to 5',
         command: `sudo ${App.configDir}/scripts/quickscripts/nixos-trim-generations.sh 5 0 system`,
         enabled: distroID == 'nixos',
     },
     {
         icon: 'nixos-symbolic',
-        name: getString('Trim home manager generations to 5'),
+        name: 'Trim home manager generations to 5',
         command: `${App.configDir}/scripts/quickscripts/nixos-trim-generations.sh 5 0 home-manager`,
         enabled: distroID == 'nixos',
     },
     {
         icon: 'ubuntu-symbolic',
-        name: getString('Update packages'),
+        name: 'Update packages',
         command: `sudo apt update && sudo apt upgrade -y`,
         enabled: isDebianDistro,
     },
     {
         icon: 'fedora-symbolic',
-        name: getString('Update packages'),
+        name: 'Update packages',
         command: `sudo dnf upgrade -y`,
         enabled: distroID == 'fedora',
     },
     {
-        icon: 'arch-symbolic',
-        name: getString('Update packages'),
+        icon: axosOrArchIcon(),
+        name: 'Update packages',
         command: `sudo pacman -Syyu`,
         enabled: isArchDistro,
     },
     {
-        icon: 'arch-symbolic',
-        name: getString('Remove orphan packages'),
+        icon: axosOrArchIcon(),
+        name: 'Remove orphan packages',
         command: `sudo pacman -R $(pacman -Qdtq)`,
         enabled: isArchDistro,
     },
     {
         icon: 'flatpak-symbolic',
-        name: getString('Uninstall unused flatpak packages'),
+        name: 'Uninstall unused flatpak packages',
         command: `flatpak uninstall --unused`,
         enabled: hasFlatpak,
     },
@@ -63,7 +68,7 @@ const scripts = [
 
 export default () => SidebarModule({
     icon: MaterialIcon('code', 'norm'),
-    name: getString('Quick scripts'),
+    name: 'Quick scripts',
     child: Box({
         vertical: true,
         className: 'spacing-v-5',

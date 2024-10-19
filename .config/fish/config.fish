@@ -12,14 +12,33 @@ if status is-interactive
 
 end
 
-starship init fish | source
 if test -f ~/.cache/ags/user/generated/terminal/sequences.txt
     cat ~/.cache/ags/user/generated/terminal/sequences.txt
 end
 
 alias pamcan=pacman
+alias vim=nvim
+alias ins='sudo pacman -S'
+alias openfile="fzf | xargs -o xdg-open"
 
+abbr -a ls lsd
+abbr -a cat bat
 # function fish_prompt
 #   set_color cyan; echo (pwd)
 #   set_color green; echo '> '
 # end
+fish_add_path /home/deb/.spicetify
+set -gx EDITOR nvim
+set -gx TERMINAL kitty
+set -g HISTFILE /dev/null
+alias term='kitty'
+
+starship init fish | source
+source /usr/share/cachyos-fish-config/cachyos-config.fish
+set _OLD_VIRTUAL_PATH "$PATH"
+zoxide init --cmd cd fish | source
+
+
+set -x LANG en_US.UTF-8
+set -x LANGUAGE en_US.UTF-8
+set -x LC_ALL en_US.UTF-8

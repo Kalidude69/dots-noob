@@ -174,7 +174,7 @@ export default () => {
         css: `background-color: ${hslToHex(selectedColor.hue, selectedColor.xAxis, selectedColor.yAxis / (1 + selectedColor.xAxis / 100))};`,
         children: [Label({
             className: 'txt txt-small',
-            label: getString('Result'),
+            label: 'Result',
         }),],
         attribute: {
             update: (self) => {
@@ -269,7 +269,7 @@ export default () => {
     })
     return SidebarModule({
         icon: MaterialIcon('colorize', 'norm'),
-        name: getString('<span strikethrough="true">Inaccurate</span> Color picker'),
+        name: '<span strikethrough="true">Inaccurate</span> Color picker',
         revealChild: false,
         child: Box({
             className: 'spacing-h-5',

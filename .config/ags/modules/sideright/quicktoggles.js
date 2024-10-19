@@ -13,7 +13,7 @@ import { sidebarOptionsStack } from './sideright.js';
 
 export const ToggleIconWifi = (props = {}) => Widget.Button({
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Wifi | Right-click to configure'),
+    tooltipText: 'Wifi | Right-click to configure',
     onClicked: () => Network.toggleWifi(),
     onSecondaryClickRelease: () => {
         execAsync(['bash', '-c', `${userOptions.apps.network}`]).catch(print);
@@ -24,7 +24,7 @@ export const ToggleIconWifi = (props = {}) => Widget.Button({
         setupCursorHover(self);
         self.hook(Network, button => {
             button.toggleClassName('sidebar-button-active', [Network.wifi?.internet, Network.wired?.internet].includes('connected'))
-            button.tooltipText = (`${Network.wifi?.ssid} | ${getString("Right-click to configure")}` || getString('Unknown'));
+            button.tooltipText = (`${Network.wifi?.ssid} | Right-click to configure` || 'Unknown');
         });
     },
     ...props,
@@ -32,7 +32,7 @@ export const ToggleIconWifi = (props = {}) => Widget.Button({
 
 export const ToggleIconBluetooth = (props = {}) => Widget.Button({
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Bluetooth | Right-click to configure'),
+    tooltipText: 'Bluetooth | Right-click to configure',
     onClicked: () => {
         const status = Bluetooth?.enabled;
         if (status)
@@ -86,7 +86,7 @@ export const ModuleNightLight = async (props = {}) => {
             enabled: false,
         },
         className: 'txt-small sidebar-iconbutton',
-        tooltipText: getString('Night Light'),
+        tooltipText: 'Night Light',
         onClicked: (self) => {
             self.attribute.enabled = !self.attribute.enabled;
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
@@ -122,7 +122,7 @@ export const ModuleCloudflareWarp = async (props = {}) => {
             enabled: false,
         },
         className: 'txt-small sidebar-iconbutton',
-        tooltipText: getString('Cloudflare WARP'),
+        tooltipText: 'Cloudflare WARP',
         onClicked: (self) => {
             self.attribute.enabled = !self.attribute.enabled;
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
@@ -147,7 +147,7 @@ export const ModuleInvertColors = async (props = {}) => {
         const Hyprland = (await import('resource:///com/github/Aylur/ags/service/hyprland.js')).default;
         return Widget.Button({
             className: 'txt-small sidebar-iconbutton',
-            tooltipText: getString('Color inversion'),
+            tooltipText: 'Color inversion',
             onClicked: (button) => {
                 // const shaderPath = JSON.parse(exec('hyprctl -j getoption decoration:screen_shader')).str;
                 Hyprland.messageAsync('j/getoption decoration:screen_shader')
@@ -208,7 +208,7 @@ export const ModuleIdleInhibitor = (props = {}) => Widget.Button({ // TODO: Make
         enabled: false,
     },
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Keep system awake'),
+    tooltipText: 'Keep system awake',
     onClicked: (self) => {
         self.attribute.enabled = !self.attribute.enabled;
         self.toggleClassName('sidebar-button-active', self.attribute.enabled);
@@ -224,10 +224,37 @@ export const ModuleIdleInhibitor = (props = {}) => Widget.Button({ // TODO: Make
     ...props,
 });
 
+export const ModuleDoNotDisturb = (props = {}) => Widget.Button({ // TODO: Make this works
+    attribute: {
+        enabled: false,
+    },
+    className: 'txt-small sidebar-iconbutton',
+    tooltipText: 'Do not disturb',
+    onClicked: (self) => {
+        self.attribute.enabled = !self.attribute.enabled;
+        self.toggleClassName('sidebar-button-active', self.attribute.enabled);
+        if (self.attribute.enabled) {
+            Utils.execAsync(['bash', '-c', `${App.configDir}/ags/scripts/dnd_toggle.sh`]).catch(console.error);
+        } else {
+            Utils.execAsync(['bash', '-c', `${App.configDir}/ags/scripts/dnd_toggle.sh`]).catch(console.error);
+        }
+    },
+    child: MaterialIcon('do_not_disturb_on_total_silence', 'norm'),
+    setup: (self) => {
+        setupCursorHover(self);
+        exec('pidof dnd.sh', (err, stdout) => {
+            self.attribute.enabled = !!stdout;
+            self.toggleClassName('sidebar-button-active', self.attribute.enabled);
+        });
+    },
+    ...props,
+});
+
+
 export const ModuleReloadIcon = (props = {}) => Widget.Button({
     ...props,
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Reload Environment config'),
+    tooltipText: 'Reload Environment config',
     onClicked: () => {
         execAsync(['bash', '-c', 'hyprctl reload || swaymsg reload &']);
         App.closeWindow('sideright');
@@ -241,7 +268,7 @@ export const ModuleReloadIcon = (props = {}) => Widget.Button({
 export const ModuleSettingsIcon = (props = {}) => Widget.Button({
     ...props,
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Open Settings'),
+    tooltipText: 'Open Settings',
     onClicked: () => {
         execAsync(['bash', '-c', `${userOptions.apps.settings}`, '&']);
         App.closeWindow('sideright');
@@ -255,7 +282,7 @@ export const ModuleSettingsIcon = (props = {}) => Widget.Button({
 export const ModulePowerIcon = (props = {}) => Widget.Button({
     ...props,
     className: 'txt-small sidebar-iconbutton',
-    tooltipText: getString('Session'),
+    tooltipText: 'Session',
     onClicked: () => {
         closeEverything();
         Utils.timeout(1, () => openWindowOnAllMonitors('session'));
