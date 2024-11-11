@@ -9,6 +9,9 @@ if [ ! -d "$ZINIT_HOME" ]; then
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 
+#add some environment specific scripts
+source /home/deb/.config/zshrc.d
+
 # Enhanced plugins for fish-like experience
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
