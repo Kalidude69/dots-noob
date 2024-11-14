@@ -94,7 +94,7 @@ export default () => SidebarModule({
                         child: scriptStateIcon,
                         onClicked: () => {
                             closeEverything();
-                            execAsync([`bash`, `-c`, `${userOptions.apps.terminal} zsh -C "${script.command}"`]).catch(print)
+                            execAsync([`bash`, `-c`, `${userOptions.apps.terminal} zsh -c "${script.command}"`]).catch(print)
                                 .then(() => {
                                     scriptStateIcon.label = 'done';
                                 })
