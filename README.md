@@ -42,13 +42,36 @@ A carefully curated collection of dotfiles and configurations for a customized L
 git clone https://github.com/Kalidude69/dots-noob.git ~/.dotfiles
 ```
 
-2. Create symbolic links:
+# After cloning, use these commands to setup your configs
 ```bash
-# Example linking commands - adjust paths as needed
-ln -s ~/.dotfiles/hypr ~/.config/hypr
-ln -s ~/.dotfiles/kitty ~/.config/kitty
-ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
-ln -s ~/.dotfiles/starship.toml ~/.config/starship.toml
+cp -r dots-noob/ags ~/.config/
+cp -r dots-noob/alacritty ~/.config/
+cp -r dots-noob/anyrun ~/.config/
+cp -r dots-noob/bat ~/.config/
+cp -r dots-noob/cava ~/.config/
+cp -r dots-noob/fastfetch ~/.config/
+cp -r dots-noob/fish ~/.config/
+cp -r dots-noob/fontconfig ~/.config/
+cp -r dots-noob/foot ~/.config/
+cp -r dots-noob/fuzzel ~/.config/
+cp -r dots-noob/hypr ~/.config/
+cp -r dots-noob/mpv ~/.config/
+cp -r dots-noob/neofetch ~/.config/
+cp -r dots-noob/nvim ~/.config/
+cp -r dots-noob/qt5ct ~/.config/
+cp -r dots-noob/tmux ~/.config/
+cp -r dots-noob/wezterm ~/.config/
+cp -r dots-noob/wlogout ~/.config/
+cp -r dots-noob/zshrc.d ~/
+cp dots-noob/.zshrc ~/
+cp dots-noob/chrome-flags.conf ~/.config/
+cp dots-noob/code-flags.conf ~/.config/
+cp dots-noob/starship.toml ~/.config/
+cp dots-noob/thorium-flags.conf ~/.config/
+
+
+# Make sure directories exist (run this first if you want to be safe)
+mkdir -p ~/.config/{ags,alacritty,anyrun,bat,cava,fastfetch,fish,fontconfig,foot,fuzzel,hypr,mpv,neofetch,nvim,qt5ct,tmux,wezterm,wlogout}
 ```
 
 
