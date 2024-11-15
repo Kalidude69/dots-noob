@@ -1,6 +1,5 @@
 # Starship prompt
 eval "$(starship init zsh)"
-
 # Zinit setup
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [ ! -d "$ZINIT_HOME" ]; then
@@ -98,7 +97,7 @@ alias openfile="fzf | xargs -o xdg-open"
 alias gsc="git status"
 alias minecraft="java -jar ~/Downloads/minecraft/TLauncher.v10/TLauncher.jar"
 alias term='kitty'
-alias ls='lsd -al'
+alias ls='eza --icons=always'
 alias cat='bat'
 
 # Shell integrations
@@ -122,3 +121,12 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export PATH="/home/deb/.spicetify:$PATH"
+
+
+# Add to your .zshrc
+function show_ghosts() {
+    echo -e "  \e[31m󰊠 \e[35m󰊠 \e[32m󰊠 \e[34m󰊠 \e[36m󰊠 \e[37m󰊠\e[0m"
+}
+
+# Add this at the end of your .zshrc after all other configurations
+show_ghosts
