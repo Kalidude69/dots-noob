@@ -1,75 +1,135 @@
-local wezterm = require("wezterm")
+-- Pull in the wezterm API
+local wezterm = require "wezterm"
 
+-- This table will hold the configuration.
 local config = {}
 
--- Wayland display server configuration
-config.enable_wayland = true
+-- In newer versions of wezterm, use the config_builder which will
+-- help provide clearer error messages
+if wezterm.config_builder then
+    config = wezterm.config_builder()
+end
 
--- Shell
-config.default_prog = { "/bin/zsh" }
+-- For example, changing the color scheme:
+config.color_scheme = "Catppuccin Mocha"
+config.font =
+    wezterm.font("JetBrains Mono NL")
+config.font_size = 14
 
--- Font
-config.font = wezterm.font("JetBrainsMono Nerd Font", {weight="Regular", italic=false})
-config.font_size = 14.0
-config.bold_brightens_ansi_colors = "BrightAndBold"
-config.font = wezterm.font_with_fallback({
-  "JetBrainsMono Nerd Font",
-  "Noto Sans",
-  "DejaVu Sans"
-})
+config.window_decorations = "NONE"
 
--- Background opacity
-config.window_background_opacity = 0.6
-
--- Disable window close confirmation
-config.exit_behavior = "Close"
-config.color_scheme = 'Catppuccin Mocha'
--- Colors
-config.colors = {
-  foreground = "#cdd6f4",
-  background = "#191724",
-  selection_fg = "#1e1e2e",
-  selection_bg = "#f5e0dc",
-  cursor_fg = "#1e1e2e",
-  cursor_bg = "#f5e0dc",
-  cursor_border = "#f5e0dc",
-  ansi = {
-    "#45475a", "#f38ba8", "#a6e3a1", "#f9e2af", 
-    "#89b4fa", "#f5c2e7", "#94e2d5", "#bac2de"
-  },
-  brights = {
-    "#585b70", "#f38ba8", "#a6e3a1", "#f9e2af", 
-    "#89b4fa", "#f5c2e7", "#94e2d5", "#a6adc8"
-  },
-  indexed = {
-    [16] = "#b4befe",
-    [17] = "#cba6f7",
-    [18] = "#74c7ec"
-  }
+-- tmux
+config.leader = { key = "q", mods = "ALT", timeout_milliseconds = 3000 }
+config.keys = {
+    {
+        mods = "LEADER",
+        key = "c",
+        action = wezterm.action.SpawnTab "CurrentPaneDomain",
+    },
+    {
+        mods = "LEADER",
+        key = "x",
+        action = wezterm.action.CloseCurrentPane { confirm = true }
+    },
+    {
+        mods = "LEADER",
+        key = "b",
+        action = wezterm.action.ActivateTabRelative(-1)
+    },
+    {
+        mods = "LEADER",
+        key = "n",
+        action = wezterm.action.ActivateTabRelative(1)
+    },
+    {
+        mods = "LEADER",
+        key = "|",
+        action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }
+    },
+    {
+        mods = "LEADER",
+        key = "-",
+        action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" }
+    },
+    {
+        mods = "LEADER",
+        key = "h",
+        action = wezterm.action.ActivatePaneDirection "Left"
+    },
+    {
+        mods = "LEADER",
+        key = "j",
+        action = wezterm.action.ActivatePaneDirection "Down"
+    },
+    {
+        mods = "LEADER",
+        key = "k",
+        action = wezterm.action.ActivatePaneDirection "Up"
+    },
+    {
+        mods = "LEADER",
+        key = "l",
+        action = wezterm.action.ActivatePaneDirection "Right"
+    },
+    {
+        mods = "LEADER",
+        key = "LeftArrow",
+        action = wezterm.action.AdjustPaneSize { "Left", 5 }
+    },
+    {
+        mods = "LEADER",
+        key = "RightArrow",
+        action = wezterm.action.AdjustPaneSize { "Right", 5 }
+    },
+    {
+        mods = "LEADER",
+        key = "DownArrow",
+        action = wezterm.action.AdjustPaneSize { "Down", 5 }
+    },
+    {
+        mods = "LEADER",
+        key = "UpArrow",
+        action = wezterm.action.AdjustPaneSize { "Up", 5 }
+    },
 }
 
--- Tab bar customization
-config.use_fancy_tab_bar = true
+for i = 0, 9 do
+    -- leader + number to activate that tab
+    table.insert(config.keys, {
+        key = tostring(i),
+        mods = "LEADER",
+        action = wezterm.action.ActivateTab(i),
+    })
+end
+
+-- tab bar
+config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = true
-config.hide_tab_bar_if_only_one_tab = true
+config.use_fancy_tab_bar = false
+config.tab_and_split_indices_are_zero_based = true
 
-config.colors.tab_bar = {
-  background = "#11111b",
-  active_tab = {
-    bg_color = "#cba6f7",
-    fg_color = "#11111b",
-  },
-  inactive_tab = {
-    bg_color = "#181825",
-    fg_color = "#cdd6f4",
-  },
-  new_tab = {
-    bg_color = "#11111b",
-    fg_color = "#cdd6f4",
-  },
-}
+-- tmux status
+wezterm.on("update-right-status", function(window, _)
+    local SOLID_LEFT_ARROW = ""
+    local ARROW_FOREGROUND = { Foreground = { Color = "#c6a0f6" } }
+    local prefix = ""
 
--- Load theme from a file if desired (assuming current-theme.conf in ~/.config/wezterm)
--- config.color_scheme = wezterm.color.load_scheme_from_file("current-theme.conf")
+    if window:leader_is_active() then
+        prefix = " " .. utf8.char(0x1f30a) -- ocean wave
+        SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+    end
+
+    if window:active_tab():tab_id() ~= 0 then
+        ARROW_FOREGROUND = { Foreground = { Color = "#1e2030" } }
+    end -- arrow color based on if tab is first pane
+
+    window:set_left_status(wezterm.format {
+        { Background = { Color = "#b7bdf8" } },
+        { Text = prefix },
+        ARROW_FOREGROUND,
+        { Text = SOLID_LEFT_ARROW }
+    })
+end)
+
+-- and finally, return the configuration to wezterm
 return config
-
