@@ -99,6 +99,7 @@ alias minecraft="java -jar ~/Downloads/minecraft/TLauncher.v10/TLauncher.jar"
 alias term='kitty'
 alias ls='eza --icons=always'
 alias cat='bat'
+alias man='batman'
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -121,11 +122,11 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export PATH="/home/deb/.spicetify:$PATH"
-
+#export MANPAGER="nvim -c 'set ft=man' -"
 
 # Add to your .zshrc
 function show_ghosts() {
-    echo -e "  \e[31m󰊠 \e[35m󰊠 \e[32m󰊠 \e[34m󰊠 \e[36m󰊠 \e[37m󰊠\e[0m"
+    echo -e "  \e[31m󰊠 \e[35m󰊠 \e[32m󰊠 \e[34m󰊠 \e[36m󰊠 \e[37m󰊠 \e[0m"
 }
 
 # Add this at the end of your .zshrc after all other configurations
