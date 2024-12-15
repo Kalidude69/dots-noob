@@ -11,7 +11,7 @@ if wezterm.config_builder then
 end
 
 -- For example, changing the color scheme:
-config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = "rose-pine"
 config.font =
     wezterm.font("JetBrains Mono NL")
 config.font_size = 14
@@ -19,11 +19,11 @@ config.font_size = 14
 config.window_decorations = "NONE"
 
 -- tmux
-config.leader = { key = "q", mods = "ALT", timeout_milliseconds = 3000 }
+config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2500 }
 config.keys = {
     {
         mods = "LEADER",
-        key = "c",
+        key = "t",
         action = wezterm.action.SpawnTab "CurrentPaneDomain",
     },
     {
@@ -43,7 +43,7 @@ config.keys = {
     },
     {
         mods = "LEADER",
-        key = "|",
+        key = "v",
         action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }
     },
     {
@@ -103,7 +103,7 @@ for i = 0, 9 do
 end
 
 -- tab bar
-config.hide_tab_bar_if_only_one_tab = false
+config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
 config.tab_and_split_indices_are_zero_based = true
@@ -115,7 +115,7 @@ wezterm.on("update-right-status", function(window, _)
     local prefix = ""
 
     if window:leader_is_active() then
-        prefix = " " .. utf8.char(0x1f30a) -- ocean wave
+        prefix = " " .. utf8.char(0x1f427) -- penguin 
         SOLID_LEFT_ARROW = utf8.char(0xe0b2)
     end
 
@@ -124,7 +124,7 @@ wezterm.on("update-right-status", function(window, _)
     end -- arrow color based on if tab is first pane
 
     window:set_left_status(wezterm.format {
-        { Background = { Color = "#b7bdf8" } },
+        { Background = { Color = "#1E1E2E" } },
         { Text = prefix },
         ARROW_FOREGROUND,
         { Text = SOLID_LEFT_ARROW }
