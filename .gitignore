@@ -2,13 +2,13 @@
 .config/ags/scss/_musicmaterial.scss
 .config/ags/scss/_musicwal.scss
 .config/ags/scss/_material.scss
-.config/obs-studio/plugin_config
-.config/obs-studio/basic
-.config/obs-studio/logs
-.config/obs-studio/profiler_data
-.config/obs-studio/global.ini
-.config/obs-studio/safe_mode
-.config/obs-studio/user.ini
+/.config/obs-studio/plugin_config
+/.config/obs-studio/basic
+/.config/obs-studio/logs
+/.config/obs-studio/profiler_data
+/.config/obs-studio/global.ini
+/.config/obs-studio/safe_mode
+/.config/obs-studio/user.ini
 /cache
 
 # Ignore Python cache files
